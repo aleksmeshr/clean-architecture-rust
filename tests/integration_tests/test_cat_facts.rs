@@ -10,7 +10,9 @@ async fn test_should_return_multiple_results() {
     // given the "all cat facts" route
 
     // when getting
-    let response = reqwest::get(&format!("{}/api/v1/cats/", &api_address)).await.expect("Failed to execute request.");
+    let response = reqwest::get(&format!("{}/api/v1/cats/", &api_address))
+        .await
+        .expect("Failed to execute request.");
 
     // then expect entire list
     assert!(response.status().is_success());
@@ -33,7 +35,9 @@ async fn test_should_return_one_results_only() {
 
     // given the "random cat fact" route
     // when getting
-    let response = reqwest::get(&format!("{}/api/v1/cats/random", &api_address)).await.expect("Failed to execute request.");
+    let response = reqwest::get(&format!("{}/api/v1/cats/random", &api_address))
+        .await
+        .expect("Failed to execute request.");
 
     // then expect 1 only
     assert!(response.status().is_success());

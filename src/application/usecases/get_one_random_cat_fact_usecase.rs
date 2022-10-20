@@ -1,7 +1,10 @@
 use async_trait::async_trait;
 
 use crate::{
-    application::{repositories::cat_facts_repository_abstract::CatFactsRepositoryAbstract, usecases::interfaces::AbstractUseCase, utils::error_handling_utils::ErrorHandlingUtils},
+    application::{
+        repositories::cat_facts_repository_abstract::CatFactsRepositoryAbstract,
+        usecases::interfaces::AbstractUseCase, utils::error_handling_utils::ErrorHandlingUtils,
+    },
     domain::{cat_fact_entity::CatFactEntity, error::ApiError},
 };
 
@@ -22,7 +25,9 @@ impl<'a> AbstractUseCase<CatFactEntity> for GetOneRandomCatFactUseCase<'a> {
 
         match cat_fact {
             Ok(fact) => Ok(fact),
-            Err(e) => Err(ErrorHandlingUtils::application_error("Cannot get random cat fact", Some(e))),
+            Err(e) => {
+                Err(ErrorHandlingUtils::application_error("Cannot get random cat fact", Some(e)))
+            }
         }
     }
 }
@@ -32,7 +37,10 @@ mod tests {
     use super::*;
     use std::io::{Error, ErrorKind};
 
-    use crate::application::{repositories::cat_facts_repository_abstract::MockCatFactsRepositoryAbstract, usecases::get_one_random_cat_fact_usecase::GetOneRandomCatFactUseCase};
+    use crate::application::{
+        repositories::cat_facts_repository_abstract::MockCatFactsRepositoryAbstract,
+        usecases::get_one_random_cat_fact_usecase::GetOneRandomCatFactUseCase,
+    };
 
     #[actix_rt::test]
     async fn test_should_return_generic_message_when_unexpected_repo_error() {
@@ -58,12 +66,11 @@ mod tests {
     async fn test_should_return_one_result() {
         // given the "one random cat fact" usecase repo returning one result
         let mut cat_fact_repository = MockCatFactsRepositoryAbstract::new();
-        cat_fact_repository.expect_get_random_cat_fact().with().times(1).returning(|| {
-            Ok(CatFactEntity {
-                fact_txt: String::from("fact1"),
-                fact_length: 1,
-            })
-        });
+        cat_fact_repository
+            .expect_get_random_cat_fact()
+            .with()
+            .times(1)
+            .returning(|| Ok(CatFactEntity { fact_txt: String::from("fact1"), fact_length: 1 }));
 
         // when calling usecase
         let get_one_random_cat_fact_usecase = GetOneRandomCatFactUseCase::new(&cat_fact_repository);

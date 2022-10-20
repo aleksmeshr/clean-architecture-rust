@@ -31,9 +31,14 @@ pub fn server(listener: TcpListener, db_name: &str) -> Result<Server, std::io::E
 
     let port = listener.local_addr().unwrap().port();
 
-    let server = HttpServer::new(move || App::new().app_data(data.clone()).wrap(Logger::default()).configure(adapters::api::shared::routes::routes))
-        .listen(listener)?
-        .run();
+    let server = HttpServer::new(move || {
+        App::new()
+            .app_data(data.clone())
+            .wrap(Logger::default())
+            .configure(adapters::api::shared::routes::routes)
+    })
+    .listen(listener)?
+    .run();
 
     println!("Server running on port {}, db_name {}", port, db_name);
 

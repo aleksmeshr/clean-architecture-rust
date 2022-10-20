@@ -6,16 +6,10 @@ pub struct DogFactDbMapper {}
 
 impl DbMapper<DogFactEntity, DogFact> for DogFactDbMapper {
     fn to_db(entity: DogFactEntity) -> DogFact {
-        DogFact {
-            id: entity.fact_id,
-            fact: entity.fact,
-        }
+        DogFact { id: entity.fact_id, fact: entity.fact }
     }
 
     fn to_entity(model: DogFact) -> DogFactEntity {
-        DogFactEntity {
-            fact_id: model.id,
-            fact: model.fact,
-        }
+        DogFactEntity { fact_id: model.id, fact: model.fact }
     }
 }

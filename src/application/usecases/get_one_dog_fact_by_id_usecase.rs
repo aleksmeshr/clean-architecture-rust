@@ -1,7 +1,10 @@
 use async_trait::async_trait;
 
 use crate::{
-    application::{repositories::dog_facts_repository_abstract::DogFactsRepositoryAbstract, usecases::interfaces::AbstractUseCase, utils::error_handling_utils::ErrorHandlingUtils},
+    application::{
+        repositories::dog_facts_repository_abstract::DogFactsRepositoryAbstract,
+        usecases::interfaces::AbstractUseCase, utils::error_handling_utils::ErrorHandlingUtils,
+    },
     domain::{dog_fact_entity::DogFactEntity, error::ApiError},
 };
 
@@ -23,7 +26,9 @@ impl<'a> AbstractUseCase<DogFactEntity> for GetOneDogFactByIdUseCase<'a> {
 
         match dog_fact {
             Ok(dog_fact) => Ok(dog_fact),
-            Err(e) => Err(ErrorHandlingUtils::application_error("Cannot get single dog fact", Some(e))),
+            Err(e) => {
+                Err(ErrorHandlingUtils::application_error("Cannot get single dog fact", Some(e)))
+            }
         }
     }
 }
@@ -34,7 +39,10 @@ mod tests {
     use mockall::predicate::eq;
     use std::io::{Error, ErrorKind};
 
-    use crate::{application::repositories::dog_facts_repository_abstract::MockDogFactsRepositoryAbstract, domain::dog_fact_entity::DogFactEntity};
+    use crate::{
+        application::repositories::dog_facts_repository_abstract::MockDogFactsRepositoryAbstract,
+        domain::dog_fact_entity::DogFactEntity,
+    };
 
     #[actix_rt::test]
     async fn test_should_return_error_with_generic_message_when_unexpected_repo_error() {
@@ -47,7 +55,8 @@ mod tests {
             .returning(|_| Err(Box::new(Error::new(ErrorKind::Other, "oh no!"))));
 
         // when calling usecase
-        let get_one_dog_fact_by_id_usecase = GetOneDogFactByIdUseCase::new(&1, &dog_fact_repository);
+        let get_one_dog_fact_by_id_usecase =
+            GetOneDogFactByIdUseCase::new(&1, &dog_fact_repository);
         let data = get_one_dog_fact_by_id_usecase.execute().await;
 
         // then exception
@@ -60,15 +69,15 @@ mod tests {
     async fn test_should_return_one_result() {
         // given the "one dog fact by id" usecase repo returning one result
         let mut dog_fact_repository = MockDogFactsRepositoryAbstract::new();
-        dog_fact_repository.expect_get_dog_fact_by_id().with(eq(1)).times(1).returning(|_| {
-            Ok(DogFactEntity {
-                fact_id: 1,
-                fact: String::from("fact1"),
-            })
-        });
+        dog_fact_repository
+            .expect_get_dog_fact_by_id()
+            .with(eq(1))
+            .times(1)
+            .returning(|_| Ok(DogFactEntity { fact_id: 1, fact: String::from("fact1") }));
 
         // when calling usecase
-        let get_one_dog_fact_by_id_usecase = GetOneDogFactByIdUseCase::new(&1, &dog_fact_repository);
+        let get_one_dog_fact_by_id_usecase =
+            GetOneDogFactByIdUseCase::new(&1, &dog_fact_repository);
         let data = get_one_dog_fact_by_id_usecase.execute().await.unwrap();
 
         // then assert the result is the expected entity

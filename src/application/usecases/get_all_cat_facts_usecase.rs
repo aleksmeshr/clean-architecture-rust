@@ -1,7 +1,10 @@
 use async_trait::async_trait;
 
 use crate::{
-    application::{repositories::cat_facts_repository_abstract::CatFactsRepositoryAbstract, usecases::interfaces::AbstractUseCase, utils::error_handling_utils::ErrorHandlingUtils},
+    application::{
+        repositories::cat_facts_repository_abstract::CatFactsRepositoryAbstract,
+        usecases::interfaces::AbstractUseCase, utils::error_handling_utils::ErrorHandlingUtils,
+    },
     domain::{cat_fact_entity::CatFactEntity, error::ApiError},
 };
 
@@ -22,7 +25,9 @@ impl<'a> AbstractUseCase<Vec<CatFactEntity>> for GetAllCatFactsUseCase<'a> {
 
         match cat_facts {
             Ok(facts) => Ok(facts),
-            Err(e) => Err(ErrorHandlingUtils::application_error("Cannot get all cat facts", Some(e))),
+            Err(e) => {
+                Err(ErrorHandlingUtils::application_error("Cannot get all cat facts", Some(e)))
+            }
         }
     }
 }
@@ -58,7 +63,11 @@ mod tests {
     async fn test_should_return_empty_list() {
         // given the "all cat facts" usecase repo returning an empty list
         let mut cat_fact_repository = MockCatFactsRepositoryAbstract::new();
-        cat_fact_repository.expect_get_all_cat_facts().with().times(1).returning(|| Ok(Vec::<CatFactEntity>::new()));
+        cat_fact_repository
+            .expect_get_all_cat_facts()
+            .with()
+            .times(1)
+            .returning(|| Ok(Vec::<CatFactEntity>::new()));
 
         // when calling usecase
         let get_all_cat_facts_usecase = GetAllCatFactsUseCase::new(&cat_fact_repository);
@@ -74,14 +83,8 @@ mod tests {
         let mut cat_fact_repository = MockCatFactsRepositoryAbstract::new();
         cat_fact_repository.expect_get_all_cat_facts().with().times(1).returning(|| {
             Ok(vec![
-                CatFactEntity {
-                    fact_txt: String::from("fact1"),
-                    fact_length: 1,
-                },
-                CatFactEntity {
-                    fact_txt: String::from("fact2"),
-                    fact_length: 2,
-                },
+                CatFactEntity { fact_txt: String::from("fact1"), fact_length: 1 },
+                CatFactEntity { fact_txt: String::from("fact2"), fact_length: 2 },
             ])
         });
 

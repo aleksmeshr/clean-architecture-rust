@@ -38,18 +38,15 @@ impl ResponseError for ErrorReponse {
 impl ErrorReponse {
     pub fn map_io_error(e: ApiError) -> ErrorReponse {
         match e.get_error_code() {
-            400 => ErrorReponse {
-                status_code: StatusCode::BAD_REQUEST,
-                error: e.get_error_message(),
-            },
-            401 => ErrorReponse {
-                status_code: StatusCode::UNAUTHORIZED,
-                error: e.get_error_message(),
-            },
-            403 => ErrorReponse {
-                status_code: StatusCode::FORBIDDEN,
-                error: e.get_error_message(),
-            },
+            400 => {
+                ErrorReponse { status_code: StatusCode::BAD_REQUEST, error: e.get_error_message() }
+            }
+            401 => {
+                ErrorReponse { status_code: StatusCode::UNAUTHORIZED, error: e.get_error_message() }
+            }
+            403 => {
+                ErrorReponse { status_code: StatusCode::FORBIDDEN, error: e.get_error_message() }
+            }
             _ => ErrorReponse {
                 status_code: StatusCode::INTERNAL_SERVER_ERROR,
                 error: String::from("Error: an unknown error occured"),
