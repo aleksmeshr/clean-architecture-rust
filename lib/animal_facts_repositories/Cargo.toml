@@ -1,0 +1,26 @@
+[package]
+name = "animal_facts_repositories"
+description = "Implementation of repositories"
+version = "1.0.0"
+edition = "2021"
+
+[lib]
+name = "animal_facts_repositories"
+path = "src/lib.rs"
+
+[dependencies]
+animal_facts_ports = { path = "../animal_facts_ports" }
+animal_facts_domain = { path = "../animal_facts_domain" }
+log = "~0.4.0"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "~1.0"
+async-trait = "~0.1"
+diesel = { version = "~1.4", features = ["postgres", "r2d2", "uuidv07"] }
+dotenv = "~0.15"
+r2d2 = "~0.8"
+tokio = { version = "1.21.2", features = ["full"] }
+reqwest={version="0.11", features = ["json"]}
+
+[dev-dependencies]
+uuid = { version = "1.2.1", features = ["serde", "v4"] }
+mockall = "~0.11"
