@@ -1,4 +1,7 @@
 /target/
+debug/
+release/
+rls/
 /coverage/
 Cargo.lock
 **/*.rs.bk
@@ -6,3 +9,4 @@ Cargo.lock
 .idea
 lcov
 *.prof*
+*.o
