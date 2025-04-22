@@ -1,5 +1,5 @@
-use animal_facts_domain::error::ApiError;
 use actix_web::{error::ResponseError, http::StatusCode, HttpResponse};
+use animal_facts_domain::error::ApiError;
 use derive_more::Display;
 use serde::Deserialize;
 use serde::Serialize;
@@ -41,9 +41,10 @@ impl ErrorResponse {
             400 => {
                 ErrorResponse { status_code: StatusCode::BAD_REQUEST, error: e.get_error_message() }
             }
-            401 => {
-                ErrorResponse { status_code: StatusCode::UNAUTHORIZED, error: e.get_error_message() }
-            }
+            401 => ErrorResponse {
+                status_code: StatusCode::UNAUTHORIZED,
+                error: e.get_error_message(),
+            },
             403 => {
                 ErrorResponse { status_code: StatusCode::FORBIDDEN, error: e.get_error_message() }
             }

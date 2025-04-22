@@ -3,11 +3,8 @@ use std::error::Error;
 
 use domain::comment::Comment;
 
+use crate::comment::http::{comment_dto::CommentDto, comment_mapper::CommentMapper};
 use crate::http::http_connection::HttpConnection;
-use crate::comment::http::{
-    comment_mapper::CommentMapper,
-    comment_dto::CommentDto,
-};
 
 pub struct CommentHttpClient {
     pub http_connection: HttpConnection,
@@ -17,8 +14,12 @@ pub struct CommentHttpClient {
 #[async_trait(?Send)]
 impl CommentClient for CommentHttpClient {
     async fn find_by_id(&self, id: u32) -> Result<Comment, Box<dyn Error>> {
-        let response =
-            self.http_connection.client().get(&format!("{}/comment/{}", &self.endpoint, id)).send().await;
+        let response = self
+            .http_connection
+            .client()
+            .get(&format!("{}/comment/{}", &self.endpoint, id))
+            .send()
+            .await;
 
         match response {
             Ok(r) => {

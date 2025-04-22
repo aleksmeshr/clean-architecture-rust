@@ -11,7 +11,6 @@ pub struct TestContextPostgreSQL {
 }
 
 impl TestContextPostgreSQL {
-
     pub fn new(base_url: &str, db_name: &str) -> Self {
         // connect to "postgres" db to be able to create our test database.
         let db_connection_postgres_db = DbConnection { db_name: "postgres".to_string() };

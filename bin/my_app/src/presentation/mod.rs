@@ -1,3 +1,3 @@
 pub mod product;
-pub mod shared;
 pub mod routes;
+pub mod shared;

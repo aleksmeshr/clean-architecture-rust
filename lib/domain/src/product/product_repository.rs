@@ -1,6 +1,6 @@
 use async_trait::async_trait;
-use std::error::Error;
 use mockall::automock;
+use std::error::Error;
 
 use crate::product::product::Product;
 

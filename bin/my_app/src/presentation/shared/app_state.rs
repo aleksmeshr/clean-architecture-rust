@@ -1,7 +1,4 @@
-use infra::{
-    product::postgres::product_repository,
-    comment::http::comment_http_client,
-};
+use infra::{comment::http::comment_http_client, product::postgres::product_repository};
 
 pub struct AppState {
     pub app_name: String,

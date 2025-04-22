@@ -1,12 +1,9 @@
 use async_trait::async_trait;
 use mockall::automock;
 
-use domain::product::{
-    product::Product,
-    product_repository::ProductRepository
-};
-use domain::comment::comment_client::CommentClient;
 use crate::utils::error_handling_utils;
+use domain::comment::comment_client::CommentClient;
+use domain::product::{product::Product, product_repository::ProductRepository};
 
 #[automock]
 #[async_trait(?Send)]
@@ -20,7 +17,10 @@ pub struct GetProductUseCaseImpl<'a> {
 }
 
 impl<'a> GetProductUseCaseImpl<'a> {
-    pub fn new(product_repository: &'a dyn ProductRepository, comment_client: &'a dyn CommentClient) -> Self {
+    pub fn new(
+        product_repository: &'a dyn ProductRepository,
+        comment_client: &'a dyn CommentClient,
+    ) -> Self {
         GetProductUseCaseImpl { product_repository, comment_client }
     }
 }

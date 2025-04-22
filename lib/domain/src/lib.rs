@@ -1,3 +1,3 @@
+pub mod comment;
 pub mod error;
 pub mod product;
-pub mod comment;

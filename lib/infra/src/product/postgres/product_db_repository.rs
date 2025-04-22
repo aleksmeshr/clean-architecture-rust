@@ -7,8 +7,7 @@ use domain::product::ProductRepository;
 
 use crate::postgres::db_connection::DbConnection;
 use crate::product::postgres::{
-    product_db_mapper::ProductDbMapper,
-    product_db_dto::ProductDbDto,
+    product_db_dto::ProductDbDto, product_db_mapper::ProductDbMapper,
     product_schema::products::dsl::*,
 };
 
@@ -37,10 +36,9 @@ impl ProductRepository for ProductDbRepository {
         let results = dog_facts.load::<DogFact>(&conn);
 
         match results {
-            Ok(models) => Ok(models
-                .into_iter()
-                .map(DogFactDbMapper::to_entity)
-                .collect::<Vec<SomeEntity>>()),
+            Ok(models) => {
+                Ok(models.into_iter().map(DogFactDbMapper::to_entity).collect::<Vec<SomeEntity>>())
+            }
             Err(e) => Err(Box::new(e)),
         }
     }
