@@ -1,36 +1,44 @@
 use async_trait::async_trait;
 use mockall::automock;
+use std::sync::Arc;
 
 use crate::utils::error_handling_utils;
+use domain::comment::comment::Comment;
 use domain::comment::comment_client::CommentClient;
+use domain::error::ApiError;
 use domain::product::{product::Product, product_repository::ProductRepository};
 
 #[automock]
 #[async_trait(?Send)]
-pub trait GetProductUseCase {
-    fn execute(&self) -> Result<Product, ApiError>;
+pub trait GetProductUseCase: Send + Sync {
+    async fn execute(&self, product_id: i32) -> Result<(Product, Vec<Comment>), ApiError>;
 }
 
-pub struct GetProductUseCaseImpl<'a> {
-    product_repository: &'a dyn ProductRepository,
-    comment_client: &'a dyn CommentClient,
+pub struct GetProductUseCaseImpl {
+    product_repository: Arc<dyn ProductRepository>,
+    comment_client: Arc<dyn CommentClient>,
 }
 
-impl<'a> GetProductUseCaseImpl<'a> {
+impl GetProductUseCaseImpl {
     pub fn new(
-        product_repository: &'a dyn ProductRepository,
-        comment_client: &'a dyn CommentClient,
+        product_repository: Arc<dyn ProductRepository>,
+        comment_client: Arc<dyn CommentClient>,
     ) -> Self {
         GetProductUseCaseImpl { product_repository, comment_client }
     }
 }
 
-impl<'a> GetProductUseCase for GetProductUseCaseImpl<'a> {
-    fn execute(&self, product_id: i32) -> Result<Product, ApiError> {
-        let product = async { self.product_repository.find_by_id(product_id).await };
+#[async_trait(?Send)]
+impl GetProductUseCase for GetProductUseCaseImpl {
+    async fn execute(&self, product_id: i32) -> Result<(Product, Vec<Comment>), ApiError> {
+        let product = self.product_repository.find_by_id(product_id).await;
+        let comments = self.comment_client.find_by_product_id(product_id).await;
 
         match product {
-            Ok(payload) => Ok(payload),
+            Ok(payload) => match comments {
+                Ok(comments) => Ok((payload, comments)),
+                Err(_) => Ok((payload, Vec::new())),
+            },
             Err(e) => {
                 Err(error_handling_utils::application_error("Cannot query the product", Some(e)))
             }

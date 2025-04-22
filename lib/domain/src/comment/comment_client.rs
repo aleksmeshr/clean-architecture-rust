@@ -6,6 +6,6 @@ use crate::comment::comment::Comment;
 
 #[automock]
 #[async_trait(?Send)]
-pub trait CommentClient {
-    async fn find_by_id(&self, id: i32) -> Result<Comment, Box<dyn Error>>;
+pub trait CommentClient: Send + Sync {
+    async fn find_by_product_id(&self, id: i32) -> Result<Vec<Comment>, Box<dyn Error>>;
 }

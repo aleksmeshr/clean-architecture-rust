@@ -1,5 +1,6 @@
-use animal_facts_domain::error::ApiError;
 use std::error::Error;
+
+use domain::error::ApiError;
 
 pub fn application_error(error_message: &str, error: Option<Box<dyn Error>>) -> ApiError {
     log_error(error_message, &error);

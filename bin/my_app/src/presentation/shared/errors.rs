@@ -1,6 +1,6 @@
 use actix_web::{error::ResponseError, http::StatusCode, HttpResponse};
-use animal_facts_domain::error::ApiError;
 use derive_more::Display;
+use domain::error::ApiError;
 use serde::Deserialize;
 use serde::Serialize;
 use thiserror::Error;
@@ -13,7 +13,7 @@ pub struct ErrorPayload {
 }
 
 #[derive(Error, Debug, Display)]
-#[display(fmt = "{:?}", error)]
+#[display("{:?}", error)]
 pub struct ErrorResponse {
     status_code: StatusCode,
     error: String,

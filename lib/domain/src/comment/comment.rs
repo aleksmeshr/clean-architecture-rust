@@ -1,11 +1,11 @@
 #[derive(Debug, Clone)]
 pub struct Comment {
     pub id: i32,
-    pub name: String,
+    pub text: String,
 }
 
 impl Comment {
-    pub fn new(id: i32, name: String) -> Self {
-        Comment { id, name }
+    pub fn new(id: i32, text: String) -> Self {
+        Comment { id, text }
     }
 }
