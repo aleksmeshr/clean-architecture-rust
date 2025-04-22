@@ -1,13 +1,19 @@
-[workspace]
-members = ["bin/*", "lib/*"]
+[package]
+name = "my_app"
+version = "1.0.0"
+edition.workspace = true
 
-[workspace.package]
-edition = "2024"
+[[bin]]
+name = "my_app"
+path = "src/main.rs"
 
-[workspace.dependencies]
-animal_facts_ports = { path = ".lib/animal_facts_ports" }
-animal_facts_domain = { path = ".lib/animal_facts_domain" }
-animal_facts_repositories = { path = ".lib/animal_facts_repositories" }
+[lib]
+name = "my_app"
+path = "src/lib.rs"
+
+[dependencies]
+domain = { path = "../../lib/domain" }
+infra = { path = "../../lib/infra" }
 actix-web = { version = "4.2.1", features = ["rustls"] }
 actix-rt = "~2.7"
 actix-http = "3.2.2"
@@ -24,3 +30,7 @@ tokio = { version = "1.21.2", features = ["full"] }
 thiserror = "~1.0"
 derive_more = "~0.99"
 reqwest={version="0.11", features = ["json"]}
+
+[dev-dependencies]
+uuid = { version = "1.2.1", features = ["serde", "v4"] }
+mockall = "0.13.1"

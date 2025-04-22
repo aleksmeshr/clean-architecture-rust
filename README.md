@@ -1,27 +1,10 @@
-# Clean architecture: rust
-
-A Clean Architecture template for a Rest API in rust
-
-# How it works
-
-Motivations, explanations, requirements & more details in my article [Practical Clean Architecture in Typescript, Rust & Python](https://dev.to/msc29/practical-clean-architecture-in-typescript-rust-python-3a6d)
-
-# Installing
-
-```bash
-cargo build
-```
+# Rust template
 
 # Database setup
 
-It's currently configured to run with PostgreSQL through Diesel (ORM), but this being clean architecture feel free to change it :)
-
-I suggest
-
 - PostgreSQL [in docker](https://hub.docker.com/_/postgres/)
 - pgAdmin [install](https://www.pgadmin.org/download/pgadmin-4-apt/)
-
-Then install [diesel_cli](https://lib.rs/crates/diesel_cli)
+- [diesel_cli](https://lib.rs/crates/diesel_cli)
 
 ```bash
 diesel setup --database-url postgresql://postgres:postgres@localhost/animal_fact_db
@@ -37,9 +20,6 @@ ENV=dev cargo run
 ```
 
 # Code quality & security
-
-Used in CI/CD
-
 ```bash
 cargo fmt --all -- --check
 cargo clippy --all-targets
@@ -57,7 +37,3 @@ Here's what done in order to mock the SPI
 ```bash
 ENV=test cargo test
 ```
-
-# API Documentation
-
-TODO: https://github.com/paperclip-rs/paperclip
