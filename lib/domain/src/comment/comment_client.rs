@@ -2,7 +2,7 @@ use async_trait::async_trait;
 use mockall::automock;
 use std::error::Error;
 
-use crate::comment::comment::Comment;
+use super::comment::Comment;
 
 #[automock]
 #[async_trait(?Send)]

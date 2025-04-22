@@ -2,7 +2,7 @@ use async_trait::async_trait;
 use mockall::automock;
 use std::error::Error;
 
-use crate::product::product::Product;
+use super::product::Product;
 
 #[automock]
 #[async_trait(?Send)]

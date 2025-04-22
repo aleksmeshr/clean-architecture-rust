@@ -1,4 +1,4 @@
-use crate::product::postgres::product_db_dto::ProductDbDto;
+use super::product_db_dto::ProductDbDto;
 use domain::product::product::Product;
 
 pub struct ProductDbMapper {}

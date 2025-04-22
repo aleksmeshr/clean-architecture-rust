@@ -4,10 +4,10 @@ use std::error::Error;
 
 use domain::product::{product::Product, product_repository::ProductRepository};
 
-use crate::postgres::db_connection::DbConnection;
-use crate::product::postgres::{
+use super::{
     product_db_dto::ProductDbDto, product_db_mapper::ProductDbMapper, product_schema::products::dsl,
 };
+use crate::postgres::db_connection::DbConnection;
 
 pub struct ProductDbRepository {
     pub db_connection: DbConnection,

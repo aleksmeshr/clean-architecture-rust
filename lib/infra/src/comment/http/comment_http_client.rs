@@ -3,7 +3,7 @@ use std::error::Error;
 
 use domain::comment::{comment::Comment, comment_client::CommentClient};
 
-use crate::comment::http::{comment_dto::CommentDto, comment_mapper::CommentMapper};
+use super::{comment_dto::CommentDto, comment_mapper::CommentMapper};
 use crate::http::http_connection::HttpConnection;
 
 pub struct CommentHttpClient {

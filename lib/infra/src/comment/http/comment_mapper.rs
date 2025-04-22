@@ -1,6 +1,6 @@
 use domain::comment::comment::Comment;
 
-use crate::comment::http::comment_dto::CommentDto;
+use super::comment_dto::CommentDto;
 
 pub struct CommentMapper {}
 
